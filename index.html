@@ -264,21 +264,21 @@
     let decoding = false;
 
     const beginnings = [
-      "下一个整点后的第七分钟",
-      "你下一次看见红色物品时",
-      "本指令抵达十三分钟后",
-      "窗外第一次传来车辆鸣笛声后",
+      "下一个整点后的第{ordinal}分钟",
+      "你下一次看见{color}物品时",
+      "本指令抵达{minutes}分钟后",
+      "窗外第{ordinal}次传来车辆鸣笛声后",
       "今日最后一次给手机充电时",
-      "明日 06:43",
-      "秒针下一次指向数字 11 时",
+      "明日 {clock}",
+      "秒针下一次指向数字 {clockNumber} 时",
       "你打下一个哈欠之后",
-      "室内光源被打开或关闭一次后",
+      "室内光源被打开或关闭{count}次后",
       "下一次有人从你身边经过时",
-      "手机电量首次变成偶数时",
-      "你再次坐下后的第三分钟",
+      "手机电量首次变成{parity}时",
+      "你再次坐下后的第{ordinal}分钟",
       "下一阵风碰到窗户之后",
-      "今天第一次听见自己的名字时",
-      "任意一扇门连续开合两次后",
+      "今天第{ordinal}次听见自己的名字时",
+      "任意一扇门连续开合{count}次后",
       "下一次洗手之前",
       "你发现一件遗忘已久的物品时",
       "屏幕亮度发生下一次变化后"
@@ -290,7 +290,7 @@
       "距离你最近的一把椅子",
       "你今天最后触碰过的杯子",
       "一枚由你选定的硬币",
-      "房间里最接近蓝色的东西",
+      "房间里最接近{color}的东西",
       "你自己的影子",
       "下一张由你亲手写下的纸条",
       "一只干燥且空置的容器",
@@ -298,91 +298,156 @@
       "目前离地面最近的一本书",
       "口袋里重量最轻的东西",
       "你最近删除的一张照片的标题",
-      "身边第三个带有直角的东西",
-      "一段长度不足十厘米的线",
+      "身边第{ordinal}个带有直角的东西",
+      "一段长度不足{centimeters}厘米的线",
       "此刻最安静的电子设备",
       "一把没有正在使用的伞",
-      "今天见到的第一种包装",
+      "今天见到的第{ordinal}种包装",
       "一件能够反光但不是镜子的东西",
       "房间内最低处的一张纸",
-      "你能在十秒内找到的圆形物体",
+      "你能在{seconds}秒内找到的{shape}物体",
       "鞋底接触过的最后一块地面",
       "通讯录里名字最短的人",
       "窗边最容易被忽略的东西"
     ];
 
     const actions = [
-      "将{target}顺时针旋转九十三度，再在旁边放下一张写有奇数的纸",
+      "将{target}{rotation}旋转{angle}度，再在旁边放下一张写有{parity}的纸",
       "向{target}陈述明天的天气，期间避开所有表示温度的词",
-      "把{target}移到你认为第二安静的位置，七分钟后恢复原位",
-      "围绕{target}走一圈，把第三次眨眼时所在的位置记下来",
+      "把{target}移到你认为第{ordinal}安静的位置，{minutes}分钟后恢复原位",
+      "围绕{target}走{count}圈，把第{ordinal}次眨眼时所在的位置记下来",
       "让{target}与一件颜色完全不同的东西保持一支笔的距离",
-      "敲击桌面两次，用能找到的最薄材料遮住{target}十一个呼吸",
-      "给{target}取一个四字名字，在纸上写三遍后将纸折起",
+      "敲击桌面{count}次，用能找到的最薄材料遮住{target}{breaths}个呼吸",
+      "给{target}取一个{wordCount}字名字，在纸上写{count}遍后将纸折起",
       "把{target}放在高于膝盖而低于肩膀的位置，直到听见下一段音乐",
       "用不惯用手画出{target}的轮廓，将图纸倒置保存",
-      "让{target}出现在某个反光表面中，随后背对它站立二十秒",
+      "让{target}出现在某个反光表面中，随后背对它站立{seconds}秒",
       "在不改变用途的前提下，让{target}暂时朝向与你相反的方向",
-      "对{target}说出一个能被六整除的数字，接着沉默四十七秒",
-      "把{target}与今天见到的第一个数字联系起来，写下一条并不存在的因果关系",
+      "对{target}说出一个能被{divisor}整除的数字，接着沉默{seconds}秒",
+      "把{target}与今天见到的第{ordinal}个数字联系起来，写下一条并不存在的因果关系",
       "为{target}选择一个不存在的纪念日，把日期藏在一本书里",
-      "在{target}旁边摆出一个无法闭合的三角形，完成后拍手一次",
-      "使{target}短暂地比任何蓝色物品更靠近门，然后将它归还",
+      "在{target}旁边摆出一个无法闭合的{shape}，完成后拍手{count}次",
+      "使{target}短暂地比任何{color}物品更靠近门，然后将它归还",
       "测量{target}到最近墙面的距离，用另一个毫不相关的数字替代测量结果",
       "把{target}交给右手，再交给左手，最后放到两只手都够不到的位置",
       "找出{target}最不显眼的一面，让它朝向房间中央",
-      "在{target}附近留下三个大小不同的空白圆圈，擦掉其中最大的一个",
-      "隔着一层布触碰{target}五次，每次间隔必须比上一次更短",
+      "在{target}附近留下{count}个大小不同的空白{shape}，擦掉其中最大的一个",
+      "隔着一层布触碰{target}{count}次，每次间隔必须比上一次更短",
       "让{target}与一段正在播放的声音同时停止，失败时等待下一段声音",
-      "用七个字描述{target}，再删去其中最准确的两个字",
+      "用{wordCount}个字描述{target}，再删去其中最准确的{removeCount}个字",
       "把{target}放进一个临时划出的方形区域，只允许一个角越过边界",
-      "为{target}指定一个与颜色无关的颜色，向空房间宣布一次",
-      "使{target}经过三种不同高度，最后停在最不稳定的位置",
-      "将{target}藏在仍能被直接看见的地方，假装寻找它一分钟",
+      "将{target}指定为{color}，向空房间宣布{count}次",
+      "使{target}经过{count}种不同高度，最后停在最不稳定的位置",
+      "将{target}藏在仍能被直接看见的地方，假装寻找它{minutes}分钟",
       "把{target}与一件更轻的东西交换位置，但不要比较二者重量",
-      "在{target}旁写下当前时间，故意把分钟增加八",
+      "在{target}旁写下当前时间，故意把分钟增加{minuteOffset}",
       "让{target}朝向最近的出口，随后关闭一个与出口无关的开关"
     ];
 
     const constraints = [
       "期间不得说出它原本的名称",
-      "全过程必须恰好改变一次方向",
-      "若听见提示音，停下五秒再继续",
+      "全过程必须恰好改变{count}次方向",
+      "若听见提示音，停下{seconds}秒再继续",
       "不要向旁人解释这样做的原因",
       "开始与结束时双脚须处于不同的地面区域",
-      "结束以前不得大声说出数字 4",
-      "最后一次移动必须朝向你认为的北方",
+      "结束以前不得大声说出数字 {forbiddenNumber}",
+      "最后一次移动必须朝向{direction}",
       "全程只使用一只手，左右任选",
       "无法判断结果时，以影子的形状为准",
       "既定顺序不可调整，即使某一步毫无意义",
-      "完成过程中至少有一次闭上双眼",
+      "完成过程中至少有{count}次闭上双眼",
       "任何掉落到地面的东西都不得捡起",
-      "中途只能回答一次别人提出的问题",
+      "中途只能回答{count}次别人提出的问题",
       "不得使用长度超过手掌的工具",
-      "每做完一步都要向左看一眼",
+      "每做完一步都要向{side}看{count}次",
       "如果有人注视你，动作速度减半",
-      "整个过程不能经过同一处位置两次",
+      "整个过程不能经过同一处位置{count}次",
       "结束后不要检查成果是否正确"
     ];
 
     const deadlines = [
-      "开始后的四十七秒",
+      "开始后的{seconds}秒",
       "下一个整点",
-      "分钟数字发生两次变化",
-      "今日 23:17",
+      "分钟数字发生{count}次变化",
+      "今日 {clock}",
       "你下一次离开当前房间",
-      "开始后的六分十三秒",
+      "开始后的{minutes}分{seconds}秒",
       "下一次收到消息通知",
       "室内任一光源再次改变状态",
-      "本指令生成后的第一千一百一十一秒",
+      "本指令生成后的第{longSeconds}秒",
       "明日日落",
-      "手机电量下降一个百分点",
+      "手机电量下降{percent}个百分点",
       "下一次有人开口叫你",
       "你再次经过一扇门",
       "当前播放的音乐结束",
       "今日最后一次看向窗外",
       "下一次整分钟到来"
     ];
+
+    const colorWords = [
+      "赤红色", "橙色", "琥珀色", "明黄色", "草绿色", "墨绿色",
+      "青色", "天蓝色", "靛蓝色", "紫色", "品红色", "粉色",
+      "棕色", "灰色", "银白色", "黑色"
+    ];
+
+    const directionWords = [
+      "北方", "南方", "东方", "西方", "东北方", "西北方",
+      "东南方", "西南方", "最近出口所在的方向", "你左手所指的方向",
+      "与窗户相反的方向", "影子尖端所指的方向"
+    ];
+
+    const shapeWords = [
+      "圆形", "三角形", "正方形", "五边形", "六边形", "椭圆形",
+      "菱形", "月牙形", "螺旋形", "不对称十字形"
+    ];
+
+    const chineseNumbers = ["零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"];
+    const countNumbers = ["零", "一", "两", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"];
+    const randomInt = (minimum, maximum) => minimum + Math.floor(Math.random() * (maximum - minimum + 1));
+    const randomChinese = (minimum, maximum) => chineseNumbers[randomInt(minimum, maximum)];
+    const randomClock = () => {
+      const hour = String(randomInt(0, 23)).padStart(2, "0");
+      let minute = randomInt(1, 58);
+      if (minute === 15 || minute === 30 || minute === 45) minute += 2;
+      return `${hour}:${String(minute).padStart(2, "0")}`;
+    };
+    const randomAngle = () => {
+      let angle = randomInt(11, 349);
+      while (angle % 15 === 0) angle = randomInt(11, 349);
+      return angle;
+    };
+
+    const tokenFactories = {
+      color: () => pickFresh(colorWords, "token-color", 7),
+      direction: () => pickFresh(directionWords, "token-direction", 5),
+      shape: () => pickFresh(shapeWords, "token-shape", 4),
+      parity: () => Math.random() < 0.5 ? "奇数" : "偶数",
+      rotation: () => Math.random() < 0.5 ? "顺时针" : "逆时针",
+      side: () => Math.random() < 0.5 ? "左" : "右",
+      clock: randomClock,
+      clockNumber: () => randomInt(1, 12),
+      ordinal: () => randomChinese(2, 9),
+      count: () => countNumbers[randomInt(2, 9)],
+      minutes: () => randomInt(2, 19),
+      seconds: () => randomInt(7, 89),
+      breaths: () => randomInt(5, 31),
+      angle: randomAngle,
+      divisor: () => randomInt(2, 12),
+      centimeters: () => randomInt(4, 40),
+      wordCount: () => randomInt(5, 12),
+      removeCount: () => randomChinese(1, 3),
+      minuteOffset: () => randomInt(1, 23),
+      forbiddenNumber: () => randomInt(0, 99),
+      longSeconds: () => randomInt(300, 3000),
+      percent: () => randomInt(1, 19)
+    };
+
+    function resolveTokens(text) {
+      return text.replace(/\{([a-zA-Z]+)\}/g, (match, key) => {
+        const factory = tokenFactories[key];
+        return factory ? factory() : match;
+      });
+    }
 
     const sentencePatterns = [
       (start, action, constraint, deadline) => `在${start}，${action}。${constraint}，并在${deadline}以前结束。`,
@@ -445,7 +510,7 @@
         const constraint = pickFresh(constraints, "constraint", 6);
         const deadline = pickFresh(deadlines, "deadline", 6);
         const pattern = pickFresh(sentencePatterns, "pattern", 5);
-        prescript = pattern(start, action, constraint, deadline);
+        prescript = resolveTokens(pattern(start, action, constraint, deadline));
         if (!recentPrescripts.includes(prescript)) break;
       }
       recentPrescripts.push(prescript);
